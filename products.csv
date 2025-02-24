@@ -1,0 +1,6 @@
+product_id,name,category,price,stock_quantity
+1,Laptop,Electronics,800.0,50
+2,Smartphone,Electronics,500.0,100
+3,Headphones,Accessories,50.0,200
+4,Book,Stationery,20.0,300
+5,Backpack,Bags,40.0,150
