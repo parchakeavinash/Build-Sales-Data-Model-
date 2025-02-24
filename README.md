@@ -2,6 +2,7 @@
 
 ## Overview
 This project demonstrates data modeling in PostgreSQL using pgAdmin. It involves creating a relational database with multiple tables, defining relationships, and inserting data from CSV files using Python.
+![image](https://github.com/user-attachments/assets/18259a73-b453-40c4-8d22-2f012605b2f6)
 
 ## Project Structure
 1. **Define Dataset & Tables**
@@ -58,8 +59,61 @@ CREATE TABLE IF NOT EXISTS OrderDetails (
     PRIMARY KEY (order_id, product_id)
 );
 ```
+# Data Insertion from CSV Files
+
+## Create CSV Files
+- `customers.csv`
+- `products.csv`
+- `orders.csv`
+- `order_details.csv`
+
+## Insert Data Using Python
+- Load data using `pandas`
+- Insert records using `psycopg2`
+
+## Python Script for Data Insertion
+
+```python
+import pandas as pd
+import psycopg2
+
+# Connect to PostgreSQL
+conn = psycopg2.connect(
+    dbname="your_database",
+    user="your_username",
+    password="your_password",
+    host="localhost",
+    port="5432"
+)
+cur = conn.cursor()
+
+# Function to insert data into tables
+def insert_data(table, dataframe):
+    for _, row in dataframe.iterrows():
+        values = tuple(row)
+        placeholders = ", ".join(["%s"] * len(values))
+        query = f"INSERT INTO {table} VALUES ({placeholders})"
+        cur.execute(query, values)
+
+# Load CSV files
+customers = pd.read_csv("customers.csv")
+products = pd.read_csv("products.csv")
+orders = pd.read_csv("orders.csv")
+order_details = pd.read_csv("order_details.csv")
+
+# Insert data into tables
+insert_data("Customers", customers)
+insert_data("Products", products)
+insert_data("Orders", orders)
+insert_data("OrderDetails", order_details)
+
+# Commit changes and close connection
+conn.commit()
+cur.close()
+conn.close()
+```
+## Conclusion
+### This project demonstrates relational database design, data modeling, and programmatic data insertion using Python and PostgreSQL. It follows best practices for ensuring data integrity and enforcing ### constraints through foreign keys and checks.
 ## Author
 ### Avinash Parchake
-```sql
 
-Copy and paste this into your GitHub README file. Let me know if you need any modifications! 🚀
